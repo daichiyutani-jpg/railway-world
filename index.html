@@ -68,9 +68,9 @@
         var buildUrl = "Build";
         var config = {
           arguments: [],
-          dataUrl: buildUrl + "/680ff5b1262bed44b67e49437e3888f1.data.unityweb",
+          dataUrl: buildUrl + "/575b867b98ea778877c64f52f513cfe1.data.unityweb",
           frameworkUrl: buildUrl + "/ae7d4aca11b12dd0091f26001208e2cf.framework.js.unityweb",
-          codeUrl: buildUrl + "/2082c1250a5152c0c72614e967e731e3.wasm.unityweb",
+          codeUrl: buildUrl + "/47fda158291b52078c308ecbfd8c01b8.wasm.unityweb",
           streamingAssetsUrl: "StreamingAssets",
           companyName: "RailwayWorld",
           productName: "RAILWAY WORLD",
@@ -81,7 +81,7 @@
         config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
         var script = document.createElement("script");
-        script.src = buildUrl + "/43ce4809da75db46db89929ed8df0fc4.loader.js";
+        script.src = buildUrl + "/40538b830e959070f07b946ec71f7e3e.loader.js";
         script.onload = function () {
           var started = Date.now();
           createUnityInstance(canvas, config, function (progress) {
