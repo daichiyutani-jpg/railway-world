@@ -1,0 +1,16 @@
+{
+  "name": "RAILWAY WORLD",
+  "short_name": "RAILWAY WORLD",
+  "description": "自分だけの鉄道模型の世界をつくって走らせるゲーム",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0e1a16",
+  "theme_color": "#123a2c",
+  "icons": [
+    { "src": "TemplateData/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "TemplateData/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

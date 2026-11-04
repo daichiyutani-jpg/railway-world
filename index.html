@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RAILWAY WORLD">
+    <meta name="theme-color" content="#123a2c">
+    <title>RAILWAY WORLD</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="TemplateData/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="TemplateData/icons/icon-192.png">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="loading">
+        <div class="title">RAILWAY WORLD</div>
+        <div class="sub">鉄道模型の世界を準備しています</div>
+        <div class="bar"><div id="bar-fill"></div></div>
+        <div id="loading-note" class="note"></div>
+      </div>
+      <div id="rotate-hint">
+        <div class="rotate-icon"></div>
+        <div>端末を横向きにしてください</div>
+      </div>
+      <div id="error" hidden></div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var loading = document.querySelector("#loading");
+      var fill = document.querySelector("#bar-fill");
+      var note = document.querySelector("#loading-note");
+      var errorBox = document.querySelector("#error");
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      function showError(msg) {
+        errorBox.hidden = false;
+        errorBox.textContent = msg;
+      }
+
+      // 画面の向きを横に固定できる環境では固定する（iPhone の Safari は未対応のため案内を出す）
+      function tryLockLandscape() {
+        try {
+          if (screen.orientation && screen.orientation.lock) screen.orientation.lock("landscape").catch(function () {});
+        } catch (e) {}
+      }
+      document.addEventListener("touchend", tryLockLandscape, { once: true });
+
+      // ページ自体の拡大縮小・長押しメニューを止め、指の操作をゲームに渡す
+      document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("ServiceWorker.js").catch(function (e) { console.warn("SW", e); });
+        });
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        showError("このブラウザは WebGL 2 に対応していないため遊べません。最新の Safari / Chrome でお試しください。");
+      } else {
+        var buildUrl = "Build";
+        var config = {
+          arguments: [],
+          dataUrl: buildUrl + "/680ff5b1262bed44b67e49437e3888f1.data.unityweb",
+          frameworkUrl: buildUrl + "/ae7d4aca11b12dd0091f26001208e2cf.framework.js.unityweb",
+          codeUrl: buildUrl + "/2082c1250a5152c0c72614e967e731e3.wasm.unityweb",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "RailwayWorld",
+          productName: "RAILWAY WORLD",
+          productVersion: "0.1.0",
+          showBanner: function (msg, type) { if (type === "error") showError(msg); else console.warn(msg); },
+        };
+        // スマホは描画解像度を抑えて、発熱とメモリを減らす
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+        var script = document.createElement("script");
+        script.src = buildUrl + "/43ce4809da75db46db89929ed8df0fc4.loader.js";
+        script.onload = function () {
+          var started = Date.now();
+          createUnityInstance(canvas, config, function (progress) {
+            fill.style.width = Math.round(progress * 100) + "%";
+            if (progress < 0.9 && Date.now() - started > 8000) note.textContent = "初回はダウンロードに時間がかかります（2回目からは端末内から起動）";
+          }).then(function (instance) {
+            loading.style.display = "none";
+            window.unityInstance = instance;
+            console.log("[RailwayWorld] loaded in " + (Date.now() - started) + " ms");
+          }).catch(function (message) {
+            showError("起動できませんでした: " + message);
+          });
+        };
+        script.onerror = function () { showError("ゲームのファイルを読み込めませんでした。通信状態を確認してください。"); };
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
