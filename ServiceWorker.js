@@ -1,6 +1,6 @@
 // オフライン対応: ゲーム本体を端末にしまっておき、通信なしでも起動できるようにする。
 // ビルドのたびにファイル名（ハッシュ）が変わるので、キャッシュ名も変わり、古いものは消える。
-const CACHE = "railwayworld-0.1.0-24c8da0db4ed34529b539a6db413cacd.wasm.unityweb";
+const CACHE = "railwayworld-0.1.0-8677608c322705e26d51b39fe7497704.wasm.unityweb";
 const FILES = [
   "./",
   "index.html",
@@ -8,10 +8,10 @@ const FILES = [
   "TemplateData/style.css",
   "TemplateData/icons/icon-192.png",
   "TemplateData/icons/icon-512.png",
-  "Build/44beacd44db2deb9df0da7c661399887.loader.js",
+  "Build/0375d314eef711c292dfa6e295579f85.loader.js",
   "Build/bcf2543e6c09d70da6b977d4b3e5b6e9.framework.js.unityweb",
-  "Build/4a577dafe21b6ac7f6ddc21397a53a46.data.unityweb",
-  "Build/24c8da0db4ed34529b539a6db413cacd.wasm.unityweb",
+  "Build/42d66fa5aa2bd83c109b61c0a7860c76.data.unityweb",
+  "Build/8677608c322705e26d51b39fe7497704.wasm.unityweb",
 ];
 
 self.addEventListener("install", (e) => {
