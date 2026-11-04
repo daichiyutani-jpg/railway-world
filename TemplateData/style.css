@@ -1,6 +1,8 @@
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0e1a16; overscroll-behavior: none; }
+/* ページ自体は動かさない（スマホのアドレスバーが出入りしても、画面は今の表示領域いっぱいに合わせ直す） */
+body { position: fixed; inset: 0; touch-action: none; -webkit-text-size-adjust: 100%; }
 body { font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; color: #eef3f1; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-#unity-container { position: fixed; inset: 0; }
+#unity-container { position: fixed; left: 0; top: 0; width: 100%; height: 100%; height: 100dvh; height: var(--rw-vh, 100dvh); }
 #unity-canvas { width: 100%; height: 100%; display: block; background: #0e1a16; touch-action: none; outline: none; }
 #loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
   background: radial-gradient(ellipse at center, #1d4a39 0%, #0e1a16 70%); }
